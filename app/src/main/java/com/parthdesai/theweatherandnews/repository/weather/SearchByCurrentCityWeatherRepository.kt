@@ -2,25 +2,22 @@ package com.parthdesai.theweatherandnews.repository.weather
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.switchMap
 import com.parthdesai.theweatherandnews.api.OpenApi
-import com.parthdesai.theweatherandnews.api.weather.SearchCurrentCityWeatherResponse
-import com.parthdesai.theweatherandnews.models.SearchCurrentCityWeather
+import com.parthdesai.theweatherandnews.api.weather.SearchByCurrentCityWeatherResponse
+import com.parthdesai.theweatherandnews.models.SearchByCurrentCityWeather
 import com.parthdesai.theweatherandnews.persistence.SearchCurrentCityWeatherDao
 import com.parthdesai.theweatherandnews.repository.JobManager
 import com.parthdesai.theweatherandnews.repository.NetworkBoundResource
 import com.parthdesai.theweatherandnews.ui.DataState
 import com.parthdesai.theweatherandnews.ui.Response
 import com.parthdesai.theweatherandnews.ui.ResponseType
-import com.parthdesai.theweatherandnews.ui.search_city.state.SearchCurrentCityField
-import com.parthdesai.theweatherandnews.ui.search_city.state.SearchCurrentCityViewState
+import com.parthdesai.theweatherandnews.ui.search_city.state.SearchByCurrentCityField
+import com.parthdesai.theweatherandnews.ui.search_city.state.SearchByCurrentCityViewState
 import com.parthdesai.theweatherandnews.util.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class SearchCurrentCityWeatherRepository
+class SearchByCurrentCityWeatherRepository
 @Inject
 constructor(
     val openApi: OpenApi,
@@ -30,15 +27,15 @@ constructor(
 
     private val TAG: String = "AppDebug"
 
-    fun searchCurrentWeatherByCityName(cityName: String): LiveData<DataState<SearchCurrentCityViewState>> {
+    fun searchCurrentWeatherByCityName(cityName: String): LiveData<DataState<SearchByCurrentCityViewState>> {
 
-        val loginFieldErrors = SearchCurrentCityField(cityName).isValid()
+        val loginFieldErrors = SearchByCurrentCityField(cityName).isValid()
 
-        if(loginFieldErrors != SearchCurrentCityField.SearchCurrentCityError.none()){
+        if(loginFieldErrors != SearchByCurrentCityField.SearchByCurrentCityError.none()){
             return returnErrorResponse(loginFieldErrors, ResponseType.Dialog())
         }
 
-        return object: NetworkBoundResource<SearchCurrentCityWeatherResponse, SearchCurrentCityWeather, SearchCurrentCityViewState>(
+        return object: NetworkBoundResource<SearchByCurrentCityWeatherResponse, SearchByCurrentCityWeather, SearchByCurrentCityViewState>(
             Constants.isNetworkConnected,
             true,
             true,
@@ -46,7 +43,7 @@ constructor(
         ){
 
             // not used in this case
-            override fun loadFromCache(): LiveData<SearchCurrentCityViewState> {
+            override fun loadFromCache(): LiveData<SearchByCurrentCityViewState> {
                 return AbsentLiveData.create()
             }
 
@@ -55,33 +52,33 @@ constructor(
             }
 
             // not used in this case
-            override suspend fun updateLocalDb(cacheObject: SearchCurrentCityWeather?) {
+            override suspend fun updateLocalDb(cacheObject: SearchByCurrentCityWeather?) {
                 searchCurrentCityWeatherDao.insertCurrentWeather(cacheObject!!)
             }
 
-            override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<SearchCurrentCityWeatherResponse>) {
-                Log.d(TAG, "handleApiSuccessResponse: $response")
+            override suspend fun handleApiSuccessResponse(responseBy: ApiSuccessResponse<SearchByCurrentCityWeatherResponse>) {
+                Log.d(TAG, "handleApiSuccessResponse: $responseBy")
 
-                val searchCurrentCityWeather = SearchCurrentCityWeather(
+                val searchCurrentCityWeather = SearchByCurrentCityWeather(
                     1,
-                    response.body.name,
-                    response.body.weather?.get(0)!!.icon,
-                    response.body.main?.temp.toString(),
-                    response.body.main?.tempMin.toString(),
-                    response.body.main?.tempMax.toString())
+                    responseBy.body.name,
+                    responseBy.body.weather?.get(0)!!.icon,
+                    responseBy.body.main?.temp.toString(),
+                    responseBy.body.main?.tempMin.toString(),
+                    responseBy.body.main?.tempMax.toString())
 
                 updateLocalDb(searchCurrentCityWeather)
 
                 onCompleteJob(
                     DataState.data(
-                        SearchCurrentCityViewState(
-                            searchCurrentCityWeather = searchCurrentCityWeather
+                        SearchByCurrentCityViewState(
+                            searchByCurrentCityWeather = searchCurrentCityWeather
                         )
                     )
                 )
             }
 
-            override fun createCall(): LiveData<GenericApiResponse<SearchCurrentCityWeatherResponse>> {
+            override fun createCall(): LiveData<GenericApiResponse<SearchByCurrentCityWeatherResponse>> {
                 return openApi.searchCity(cityName)
             }
 
@@ -91,10 +88,10 @@ constructor(
         }.asLiveData()
     }
 
-    private fun returnErrorResponse(errorMessage: String, responseType: ResponseType): LiveData<DataState<SearchCurrentCityViewState>>{
+    private fun returnErrorResponse(errorMessage: String, responseType: ResponseType): LiveData<DataState<SearchByCurrentCityViewState>>{
         Log.d(TAG, "returnErrorResponse: $errorMessage")
 
-        return object: LiveData<DataState<SearchCurrentCityViewState>>(){
+        return object: LiveData<DataState<SearchByCurrentCityViewState>>(){
             override fun onActive() {
                 super.onActive()
                 value = DataState.error(
@@ -107,8 +104,8 @@ constructor(
         }
     }
 
-    fun checkPreviousSearchedCityWeatherEvent(): LiveData<DataState<SearchCurrentCityViewState>> {
-        return object: NetworkBoundResource<SearchCurrentCityWeatherResponse,Any, SearchCurrentCityViewState>(
+    fun checkPreviousSearchedCityWeatherEvent(): LiveData<DataState<SearchByCurrentCityViewState>> {
+        return object: NetworkBoundResource<SearchByCurrentCityWeatherResponse,Any, SearchByCurrentCityViewState>(
             Constants.isNetworkConnected,
             false,
             false,
@@ -121,7 +118,7 @@ constructor(
                         checkPreviousSearchedCityData.let {
                             onCompleteJob(
                                 DataState.data(
-                                    SearchCurrentCityViewState(searchCurrentCityWeather =  checkPreviousSearchedCityData)
+                                    SearchByCurrentCityViewState(searchByCurrentCityWeather =  checkPreviousSearchedCityData)
                                 )
                             )
                         }
@@ -130,12 +127,12 @@ constructor(
             }
 
             // not used in this case
-            override suspend fun handleApiSuccessResponse(response: ApiSuccessResponse<SearchCurrentCityWeatherResponse>) {
-                Log.d(TAG, "handleApiSuccessResponse: $response")
+            override suspend fun handleApiSuccessResponse(responseBy: ApiSuccessResponse<SearchByCurrentCityWeatherResponse>) {
+                Log.d(TAG, "handleApiSuccessResponse: $responseBy")
 
             }
 
-            override fun createCall(): LiveData<GenericApiResponse<SearchCurrentCityWeatherResponse>> {
+            override fun createCall(): LiveData<GenericApiResponse<SearchByCurrentCityWeatherResponse>> {
                 return AbsentLiveData.create()
             }
 
@@ -144,7 +141,7 @@ constructor(
             }
 
             // Ignore
-            override fun loadFromCache(): LiveData<SearchCurrentCityViewState> {
+            override fun loadFromCache(): LiveData<SearchByCurrentCityViewState> {
                 return AbsentLiveData.create()
             }
 

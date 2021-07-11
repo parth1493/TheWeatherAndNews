@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "search_current_city_weather")
-class SearchCurrentCityWeather(
+class SearchByCurrentCityWeather(
 
     @PrimaryKey
     @ColumnInfo(name = "id")

@@ -22,7 +22,7 @@ class MainActivity : BaseActivity()
     @Inject
     lateinit var providerFactory: ViewModelProviderFactory
 
-    lateinit var viewModel: SearchCityViewModel
+    lateinit var viewModelByCurrent: SearchByCurrentCityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class MainActivity : BaseActivity()
 
         setSupportActionBar(binding.toolbar)
 
-        viewModel = ViewModelProvider(this, providerFactory).get(SearchCityViewModel::class.java)
+        viewModelByCurrent = ViewModelProvider(this, providerFactory).get(SearchByCurrentCityViewModel::class.java)
 
         subscribeObservers()
         initFragment()
@@ -50,7 +50,7 @@ class MainActivity : BaseActivity()
     }
 
     private fun searchByCity(){
-        viewModel.setStateEvent(
+        viewModelByCurrent.setStateEvent(
             SearchByCurrentCityStateEvent.SearchByCurrentCityEvent(
                 binding.searchEditText.text.toString()
             )
@@ -58,11 +58,11 @@ class MainActivity : BaseActivity()
     }
 
     private fun checkPreviousSearchedCityWeatherUser(){
-        viewModel.setStateEvent(SearchByCurrentCityStateEvent.CheckPreviousSearchedCityWeatherEventBy())
+        viewModelByCurrent.setStateEvent(SearchByCurrentCityStateEvent.CheckPreviousSearchedCityWeatherEventBy())
     }
 
     private fun initFragment(){
-        val textFragment = SearchCityFragment()
+        val textFragment = SearchByCurrentCityFragment()
         val manager = supportFragmentManager
         val transaction = manager.beginTransaction()
         transaction.replace(R.id.nav_host_fragment_content_main,textFragment)
@@ -71,7 +71,7 @@ class MainActivity : BaseActivity()
     }
 
     fun subscribeObservers(){
-        viewModel.dataState.observe(this, Observer { dataState->
+        viewModelByCurrent.dataState.observe(this, Observer { dataState->
             onDataStateChange(dataState)
         })
     }

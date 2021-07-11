@@ -10,14 +10,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.parthdesai.theweatherandnews.databinding.FragmentFirstBinding
-import com.parthdesai.theweatherandnews.models.SearchCurrentCityWeather
+import com.parthdesai.theweatherandnews.models.SearchByCurrentCityWeather
 import com.parthdesai.theweatherandnews.ui.BaseFragment
 import com.parthdesai.theweatherandnews.util.Constants.Companion.IMAGE_URL
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
-class SearchCityFragment : BaseFragment() {
+class SearchByCurrentCityFragment : BaseFragment() {
 
     private var _binding: FragmentFirstBinding? = null
 
@@ -35,20 +35,20 @@ class SearchCityFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d(TAG, "SearchCityFragment Parth: ${viewModel}")
+        Log.d(TAG, "SearchCityFragment Parth: ${viewModelByCurrent}")
 
         subscribeObservers()
     }
 
     private fun subscribeObservers() {
 
-        viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
+        viewModelByCurrent.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             dataState.data?.let { data ->
                 data.data?.let { event ->
                     event.getContentIfNotHandled()?.let {
-                        it.searchCurrentCityWeather?.let {
+                        it.searchByCurrentCityWeather?.let {
                             Log.d(TAG, "SearchCurrentCityWeather: ${it}")
-                            viewModel.setSearchByCurrentCity(it)
+                            viewModelByCurrent.setSearchByCurrentCity(it)
                             setAccountDataFields(it)
                         }
                     }
@@ -58,20 +58,20 @@ class SearchCityFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setAccountDataFields(searchCurrentCityWeather: SearchCurrentCityWeather){
-        Log.d("Parth--4", searchCurrentCityWeather.name+" , "+ searchCurrentCityWeather.icon)
+    private fun setAccountDataFields(searchByCurrentCityWeather: SearchByCurrentCityWeather){
+        Log.d("Parth--4", searchByCurrentCityWeather.name+" , "+ searchByCurrentCityWeather.icon)
         binding.todayIn.visibility = View.VISIBLE
         binding.cityName.visibility = View.VISIBLE
         binding.minMaxTemp.visibility = View.VISIBLE
         binding.current.visibility = View.VISIBLE
         binding.icon.visibility = View.VISIBLE
 
-        binding.cityName.text = searchCurrentCityWeather.name
-        binding.minMaxTemp.text = "max ${searchCurrentCityWeather.temp_max} / min ${searchCurrentCityWeather.temp_min}"
-        binding.current.text = "Current ${searchCurrentCityWeather.temperature}"
+        binding.cityName.text = searchByCurrentCityWeather.name
+        binding.minMaxTemp.text = "max ${searchByCurrentCityWeather.temp_max} / min ${searchByCurrentCityWeather.temp_min}"
+        binding.current.text = "Current ${searchByCurrentCityWeather.temperature}"
         Glide.with(binding.icon.context)
             .asBitmap()
-            .load("${IMAGE_URL}${searchCurrentCityWeather.icon}.png")
+            .load("${IMAGE_URL}${searchByCurrentCityWeather.icon}.png")
             .into(binding.icon)
     }
 

@@ -2,9 +2,9 @@ package com.parthdesai.theweatherandnews.persistence
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.parthdesai.theweatherandnews.models.SearchCurrentCityWeather
+import com.parthdesai.theweatherandnews.models.SearchByCurrentCityWeather
 
-@Database(entities = [SearchCurrentCityWeather::class], version = 1)
+@Database(entities = [SearchByCurrentCityWeather::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getSearchCurrentCityWeatherDao(): SearchCurrentCityWeatherDao

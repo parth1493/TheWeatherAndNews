@@ -1,6 +1,6 @@
 package com.parthdesai.theweatherandnews.di
 
-import com.parthdesai.theweatherandnews.ui.search_city.SearchCityFragment
+import com.parthdesai.theweatherandnews.ui.search_city.SearchByCurrentCityFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector()
-    abstract fun contributeLauncherFragment(): SearchCityFragment
+    abstract fun contributeLauncherFragment(): SearchByCurrentCityFragment
 }

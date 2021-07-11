@@ -1,16 +1,16 @@
 package com.parthdesai.theweatherandnews.ui.search_city.state
 
-import com.parthdesai.theweatherandnews.models.SearchCurrentCityWeather
+import com.parthdesai.theweatherandnews.models.SearchByCurrentCityWeather
 
-data class SearchCurrentCityViewState(
-    var searchCurrentCityField: SearchCurrentCityField = SearchCurrentCityField(),
-    var searchCurrentCityWeather: SearchCurrentCityWeather? = null
+data class SearchByCurrentCityViewState(
+    var searchCurrentCityField: SearchByCurrentCityField = SearchByCurrentCityField(),
+    var searchByCurrentCityWeather: SearchByCurrentCityWeather? = null
 )
 
-data class SearchCurrentCityField(
+data class SearchByCurrentCityField(
     var cityName:String? = null
 ){
-    class SearchCurrentCityError{
+    class SearchByCurrentCityError{
         companion object{
 
             fun mustFillAllFields(): String{
@@ -29,9 +29,9 @@ data class SearchCurrentCityField(
         if(cityName.isNullOrEmpty()
             || cityName.isNullOrEmpty()){
 
-            return SearchCurrentCityError.mustFillAllFields()
+            return SearchByCurrentCityError.mustFillAllFields()
         }
-        return SearchCurrentCityError.none()
+        return SearchByCurrentCityError.none()
     }
 
     override fun toString(): String {

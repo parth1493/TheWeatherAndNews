@@ -2,7 +2,7 @@ package com.parthdesai.theweatherandnews.api
 
 import androidx.lifecycle.LiveData
 import com.parthdesai.theweatherandnews.BuildConfig
-import com.parthdesai.theweatherandnews.api.weather.SearchCurrentCityWeatherResponse
+import com.parthdesai.theweatherandnews.api.weather.SearchByCurrentCityWeatherResponse
 import com.parthdesai.theweatherandnews.util.Constants
 import com.parthdesai.theweatherandnews.util.GenericApiResponse
 import retrofit2.http.GET
@@ -15,5 +15,5 @@ interface OpenApi {
         @Query("q") cityName:String,
         @Query("appid") apiKey:String = BuildConfig.WEATHER_KRY,
         @Query("units")units:String = Constants.UNITS
-    ): LiveData<GenericApiResponse<SearchCurrentCityWeatherResponse>>
+    ): LiveData<GenericApiResponse<SearchByCurrentCityWeatherResponse>>
 }

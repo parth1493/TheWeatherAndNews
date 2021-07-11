@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search_city.SearchCityFragment">
+    tools:context=".ui.search_city.SearchByCurrentCityFragment">
     <TextView
         android:id="@+id/today_in"
         android:visibility="invisible"
