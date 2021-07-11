@@ -10,7 +10,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.parthdesai.theweatherandnews.R
 import com.parthdesai.theweatherandnews.databinding.ActivityMainBinding
 import com.parthdesai.theweatherandnews.ui.BaseActivity
-import com.parthdesai.theweatherandnews.ui.search_city.state.SearchCurrentCityStateEvent
+import com.parthdesai.theweatherandnews.ui.search_city.state.SearchByCurrentCityStateEvent
 import com.parthdesai.theweatherandnews.viewmodels.ViewModelProviderFactory
 import javax.inject.Inject
 
@@ -46,19 +46,19 @@ class MainActivity : BaseActivity()
             }
         }
 
-        checkPreviousAuthUser()
+        checkPreviousSearchedCityWeatherUser()
     }
 
     private fun searchByCity(){
         viewModel.setStateEvent(
-            SearchCurrentCityStateEvent.SearchCurrentCityEvent(
+            SearchByCurrentCityStateEvent.SearchByCurrentCityEvent(
                 binding.searchEditText.text.toString()
             )
         )
     }
 
-    private fun checkPreviousAuthUser(){
-        viewModel.setStateEvent(SearchCurrentCityStateEvent.CheckPreviousSearchedCityEvent())
+    private fun checkPreviousSearchedCityWeatherUser(){
+        viewModel.setStateEvent(SearchByCurrentCityStateEvent.CheckPreviousSearchedCityWeatherEventBy())
     }
 
     private fun initFragment(){

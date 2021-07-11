@@ -30,7 +30,7 @@ constructor(
 
     private val TAG: String = "AppDebug"
 
-    fun searchWeatherByCityName(cityName: String): LiveData<DataState<SearchCurrentCityViewState>> {
+    fun searchCurrentWeatherByCityName(cityName: String): LiveData<DataState<SearchCurrentCityViewState>> {
 
         val loginFieldErrors = SearchCurrentCityField(cityName).isValid()
 
@@ -107,7 +107,7 @@ constructor(
         }
     }
 
-    fun checkPreviousSearchedCityEvent(): LiveData<DataState<SearchCurrentCityViewState>> {
+    fun checkPreviousSearchedCityWeatherEvent(): LiveData<DataState<SearchCurrentCityViewState>> {
         return object: NetworkBoundResource<SearchCurrentCityWeatherResponse,Any, SearchCurrentCityViewState>(
             Constants.isNetworkConnected,
             false,

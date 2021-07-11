@@ -5,29 +5,27 @@ import com.parthdesai.theweatherandnews.models.SearchCurrentCityWeather
 import com.parthdesai.theweatherandnews.repository.weather.SearchCurrentCityWeatherRepository
 import com.parthdesai.theweatherandnews.ui.BaseViewModel
 import com.parthdesai.theweatherandnews.ui.DataState
-import com.parthdesai.theweatherandnews.ui.search_city.state.SearchCurrentCityStateEvent
+import com.parthdesai.theweatherandnews.ui.search_city.state.SearchByCurrentCityStateEvent
 import com.parthdesai.theweatherandnews.ui.search_city.state.SearchCurrentCityViewState
-import com.parthdesai.theweatherandnews.util.AbsentLiveData
-import com.parthdesai.theweatherandnews.util.GenericApiResponse
 import javax.inject.Inject
 
 class SearchCityViewModel
 @Inject
 constructor(
     val repository: SearchCurrentCityWeatherRepository
-): BaseViewModel<SearchCurrentCityStateEvent, SearchCurrentCityViewState>()
+): BaseViewModel<SearchByCurrentCityStateEvent, SearchCurrentCityViewState>()
 {
-    override fun handleStateEvent(stateEvent: SearchCurrentCityStateEvent): LiveData<DataState<SearchCurrentCityViewState>> =
-        when(stateEvent){
+    override fun handleStateEvent(stateEventBy: SearchByCurrentCityStateEvent): LiveData<DataState<SearchCurrentCityViewState>> =
+        when(stateEventBy){
 
-            is SearchCurrentCityStateEvent.SearchCurrentCityEvent -> {
-                repository.searchWeatherByCityName(
-                    stateEvent.cityName
+            is SearchByCurrentCityStateEvent.SearchByCurrentCityEvent -> {
+                repository.searchCurrentWeatherByCityName(
+                    stateEventBy.cityName
                 )
             }
 
-            is SearchCurrentCityStateEvent.CheckPreviousSearchedCityEvent -> {
-                repository.checkPreviousSearchedCityEvent()
+            is SearchByCurrentCityStateEvent.CheckPreviousSearchedCityWeatherEventBy -> {
+                repository.checkPreviousSearchedCityWeatherEvent()
             }
         }
 
