@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.parthdesai.theweatherandnews.databinding.FragmentFirstBinding
 import com.parthdesai.theweatherandnews.models.SearchByCurrentCityWeather
+import com.parthdesai.theweatherandnews.models.WeatherForecast
 import com.parthdesai.theweatherandnews.ui.BaseFragment
 import com.parthdesai.theweatherandnews.util.Constants.Companion.IMAGE_URL
 
@@ -49,7 +50,19 @@ class SearchByCurrentCityFragment : BaseFragment() {
                         it.searchByCurrentCityWeather?.let {
                             Log.d(TAG, "SearchCurrentCityWeather: ${it}")
                             viewModelByCurrent.setSearchByCurrentCity(it)
-                            setAccountDataFields(it)
+                            setCurrentCityFields(it)
+                        }
+                    }
+                }
+            }
+        })
+
+        viewModelByCurrent.dataState.observe(viewLifecycleOwner, Observer { dataState ->
+            dataState.data?.let { data ->
+                data.data?.let { event ->
+                    event.getContentIfNotHandled()?.let {
+                        it.weatherForecast?.let {
+                            Log.d(TAG, "SearchCurrentCityWeather: ${it}")
                         }
                     }
                 }
@@ -58,7 +71,14 @@ class SearchByCurrentCityFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setAccountDataFields(searchByCurrentCityWeather: SearchByCurrentCityWeather){
+    private fun setWeatherDataDataFields(weatherForecast: List<WeatherForecast>){
+        for (forecast in weatherForecast) {
+            Log.d("Parth--5", forecast.temp_max + " , " + forecast.temp_min)
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setCurrentCityFields(searchByCurrentCityWeather: SearchByCurrentCityWeather){
         Log.d("Parth--4", searchByCurrentCityWeather.name+" , "+ searchByCurrentCityWeather.icon)
         binding.todayIn.visibility = View.VISIBLE
         binding.cityName.visibility = View.VISIBLE

@@ -55,10 +55,16 @@ class MainActivity : BaseActivity()
                 binding.searchEditText.text.toString()
             )
         )
+        viewModelByCurrent.setStateEvent(
+            SearchByCurrentCityStateEvent.WeatherForecastEvent(
+                binding.searchEditText.text.toString()
+            )
+        )
     }
 
     private fun checkPreviousSearchedCityWeatherUser(){
         viewModelByCurrent.setStateEvent(SearchByCurrentCityStateEvent.CheckPreviousSearchedCityWeatherEventBy())
+        viewModelByCurrent.setStateEvent(SearchByCurrentCityStateEvent.CheckPreviousWeatherForecastEventBy())
     }
 
     private fun initFragment(){

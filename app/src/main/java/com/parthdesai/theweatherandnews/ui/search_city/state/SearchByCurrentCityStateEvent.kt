@@ -7,4 +7,11 @@ sealed class SearchByCurrentCityStateEvent {
     ): SearchByCurrentCityStateEvent()
 
     class CheckPreviousSearchedCityWeatherEventBy(): SearchByCurrentCityStateEvent()
+
+    data class WeatherForecastEvent(
+        val cityName:String
+    ): SearchByCurrentCityStateEvent()
+
+    class CheckPreviousWeatherForecastEventBy(): SearchByCurrentCityStateEvent()
+
 }

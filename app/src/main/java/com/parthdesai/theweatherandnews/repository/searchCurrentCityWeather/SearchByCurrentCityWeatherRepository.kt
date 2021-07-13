@@ -1,4 +1,4 @@
-package com.parthdesai.theweatherandnews.repository.weather
+package com.parthdesai.theweatherandnews.repository.searchCurrentCityWeather
 
 import android.util.Log
 import androidx.lifecycle.LiveData

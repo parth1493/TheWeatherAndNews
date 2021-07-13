@@ -11,6 +11,7 @@ import com.parthdesai.theweatherandnews.R
 import com.parthdesai.theweatherandnews.persistence.AppDatabase
 import com.parthdesai.theweatherandnews.persistence.AppDatabase.Companion.DATABASE_NAME
 import com.parthdesai.theweatherandnews.persistence.SearchCurrentCityWeatherDao
+import com.parthdesai.theweatherandnews.persistence.WeatherForecastDao
 import com.parthdesai.theweatherandnews.util.Constants
 import com.parthdesai.theweatherandnews.util.LiveDataCallAdapterFactory
 import dagger.Module
@@ -52,6 +53,11 @@ class AppModule{
         return db.getSearchCurrentCityWeatherDao()
     }
 
+    @Singleton
+    @Provides
+    fun provideWeatherForecastDao(db: AppDatabase): WeatherForecastDao {
+        return db.getWeatherForecastDao()
+    }
 
     @Singleton
     @Provides

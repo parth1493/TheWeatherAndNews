@@ -1,10 +1,12 @@
 package com.parthdesai.theweatherandnews.ui.search_city.state
 
 import com.parthdesai.theweatherandnews.models.SearchByCurrentCityWeather
+import com.parthdesai.theweatherandnews.models.WeatherForecast
 
 data class SearchByCurrentCityViewState(
     var searchCurrentCityField: SearchByCurrentCityField = SearchByCurrentCityField(),
-    var searchByCurrentCityWeather: SearchByCurrentCityWeather? = null
+    var searchByCurrentCityWeather: SearchByCurrentCityWeather? = null,
+    var weatherForecast: List<WeatherForecast>? = null
 )
 
 data class SearchByCurrentCityField(

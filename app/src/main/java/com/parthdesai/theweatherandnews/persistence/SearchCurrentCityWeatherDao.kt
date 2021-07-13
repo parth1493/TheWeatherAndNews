@@ -18,7 +18,4 @@ interface SearchCurrentCityWeatherDao {
     @Query("Select count(*) from search_current_city_weather")
     suspend fun getCount(): Int
 
-    @Query("UPDATE search_current_city_weather SET name = :name, icon1 = :icon, temperature = :temperature, temp_min =:temp_min, temp_max=:temp_max WHERE id = :id")
-    fun updateCurrentCity(id: Int, name: String, icon: String, temperature: String, temp_min: String, temp_max: String )
-
 }

@@ -2,7 +2,9 @@ package com.parthdesai.theweatherandnews.di.weather
 
 import com.parthdesai.theweatherandnews.api.OpenApi
 import com.parthdesai.theweatherandnews.persistence.SearchCurrentCityWeatherDao
-import com.parthdesai.theweatherandnews.repository.weather.SearchByCurrentCityWeatherRepository
+import com.parthdesai.theweatherandnews.persistence.WeatherForecastDao
+import com.parthdesai.theweatherandnews.repository.searchCurrentCityWeather.SearchByCurrentCityWeatherRepository
+import com.parthdesai.theweatherandnews.repository.weatherforecast.WeatherForecastRepository
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -26,6 +28,17 @@ class WeatherModule{
         return SearchByCurrentCityWeatherRepository(
             openApi,
             searchCurrentCityWeatherDao
+        )
+    }
+
+    @Provides
+    fun provideSearchCurrentCityWeatherForecastRepository(
+        openApi: OpenApi,
+        weatherForecastDao: WeatherForecastDao
+    ): WeatherForecastRepository {
+        return WeatherForecastRepository(
+            openApi,
+            weatherForecastDao
         )
     }
 
