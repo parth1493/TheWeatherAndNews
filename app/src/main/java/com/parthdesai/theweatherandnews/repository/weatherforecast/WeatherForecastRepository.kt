@@ -94,7 +94,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                addJob("getCurrentCityWeatherData", job)
+                addJob("getWeatherForecastData", job)
             }
         }.asLiveData()
     }
@@ -148,7 +148,7 @@ constructor(
             }
 
             override fun setJob(job: Job) {
-                addJob("CheckPreviousWeatherData", job)
+                addJob("CheckPreviousWeatherForecastData", job)
             }
 
             // Ignore
